@@ -1,7 +1,5 @@
 "use client";
 import * as React from "react";
-
-import { SelectDemo } from "./select";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Button } from "@/components/ui/button";
@@ -25,7 +23,6 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select } from "@radix-ui/react-select";
 import { Workout } from "@/utils/type";
 import { Pencil } from "lucide-react";
 import Capitalize from "@/utils/capitalising";
@@ -48,7 +45,7 @@ export function UpdateForm({ workout }: { workout: Workout }) {
             <DialogTitle>Update Workout</DialogTitle>
             <DialogDescription>
               Provide the information regarding the new updated workout. Click
-              save when you're done.
+              save when you are done.
             </DialogDescription>
           </DialogHeader>
           <ProfileForm workout={workout} setIsOpen={setOpen} />
@@ -67,7 +64,7 @@ export function UpdateForm({ workout }: { workout: Workout }) {
           <DrawerTitle>New Workout</DrawerTitle>
           <DrawerDescription>
             Provide the information regarding the new workout. Click save when
-            you're done.
+            you are done.
           </DrawerDescription>
         </DrawerHeader>
         <ProfileForm className="px-4" workout={workout} setIsOpen={setOpen} />
@@ -97,11 +94,11 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 
   const workoutName = Capitalize(workout.title);
   const [title, setTitle] = useState<string>("");
-  const [reps, setReps] = useState<any>();
-  const [weight, setWeight] = useState<any>();
+  const [reps, setReps] = useState<string>();
+  const [weight, setWeight] = useState<string>();
   const [muscle, setMuscle] = useState<string>("");
   console.log(muscle);
-  async function HandleClick(e: any) {
+  async function HandleClick(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
       const response = await axios.patch(`/${workout._id}`, {
@@ -153,6 +150,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     </form>
   );
 };
-function updateWorkout(data: any) {
-  throw new Error("Function not implemented.");
-}
+// function updateWorkout(data: any) {
+//   throw new Error("Function not implemented.");
+// }

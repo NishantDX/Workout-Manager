@@ -1,4 +1,4 @@
-import { testData } from "@/utils/testData";
+
 import { Workout } from "@/utils/type";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import WorkoutTile from "./wokroutTile";

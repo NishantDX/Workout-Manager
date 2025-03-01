@@ -25,13 +25,11 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select } from "@radix-ui/react-select";
+
 import { useEffect, useState } from "react";
 import useWorkoutState from "@/app/(pages)/store/useworkoutState";
 import axios from "axios";
-import { muscleGroups } from "@/data/musclegroups";
 import { SelectName } from "./selectName";
-import useWorkoutForMuscleState from "@/app/(pages)/store/useMuscleWorkoutState";
 interface WorkoutFormProps {
   muscleExist: boolean;
   muscleName: string;
@@ -56,7 +54,7 @@ export function WorkoutForm({
             <DialogTitle>New Workout</DialogTitle>
             <DialogDescription>
               Provide the information regarding the new workout. Click save when
-              you're done.
+              you are done.
             </DialogDescription>
           </DialogHeader>
           <ProfileForm
@@ -80,7 +78,7 @@ export function WorkoutForm({
           <DrawerTitle>New Workout</DrawerTitle>
           <DrawerDescription>
             Provide the information regarding the new workout. Click save when
-            you're done.
+            you are done.
           </DrawerDescription>
         </DrawerHeader>
         <ProfileForm
@@ -115,16 +113,16 @@ function ProfileForm({
   workoutName,
 }: ProfileFormProps) {
   const [title, setTitle] = useState<string>("");
-  const [reps, setReps] = useState<any>();
-  const [weight, setWeight] = useState<any>();
+  const [reps, setReps] = useState<string>();
+  const [weight, setWeight] = useState<string>();
   const [muscle, setMuscle] = useState<string>("");
 
-  const { muscleWorkouts } = useWorkoutForMuscleState();
 
-  //const [name,setName]=useState("");
-  const { workouts, getWorkout, deleteWorkout, addWorkout, updateWorkout } =
+
+
+  const {  addWorkout} =
     useWorkoutState();
-  async function HandleClick(e: any) {
+  async function HandleClick(e: React.FormEvent<HTMLFormElement>) {
     console.log("hi");
     e.preventDefault();
     try {
@@ -225,10 +223,10 @@ function ProfileForm({
       </form>
     );
 }
-function setErrors(err: any) {
-  throw new Error("Function not implemented.");
+function setErrors(err: string) {
+  throw new Error(err);
 }
 
-function setemptyFields(emptyFields: any) {
-  throw new Error("Function not implemented.");
+function setemptyFields(emptyFields: string) {
+  throw new Error(emptyFields);
 }

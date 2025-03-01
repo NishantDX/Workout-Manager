@@ -1,5 +1,5 @@
 import * as React from "react";
-import { muscleGroups } from "../data/musclegroups";
+
 import {
   Select,
   SelectContent,
@@ -9,9 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+
 import useWorkoutForMuscleState from "@/app/(pages)/store/useMuscleWorkoutState";
-import useWorkoutState from "@/app/(pages)/store/useworkoutState";
+
 interface SelectDemoProps {
   muscle: string;
   setTitle: React.Dispatch<React.SetStateAction<string>>;

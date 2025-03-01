@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react"
-import useWorkoutForMuscleState from "@/app/(pages)/store/useMuscleWorkoutState"
 import useWorkoutState from "@/app/(pages)/store/useworkoutState"
 
 interface GymAttendance {
@@ -12,11 +11,8 @@ interface GymAttendance {
   attended: boolean
 }
 
-// Mock data for gym attendance
-
-
 export function GymCalendar() {
-  const {workouts, getWorkout, deleteWorkout,updateWorkout} = useWorkoutState()
+  const {workouts} = useWorkoutState()
   const [gymAttendance, setGymAttendance] = useState<GymAttendance[]>([])
 
   useEffect(() => {
@@ -27,11 +23,6 @@ export function GymCalendar() {
     setGymAttendance(attendance)
   }, [workouts])
 
-
-
-  //   date: new Date(2025, 0, i + 1).toISOString().split("T")[0],
-  //   attended: Math.random() > 0.3, // 70% chance of attendance
-  // }))
   console.log(workouts)
   const [currentMonth, setCurrentMonth] = useState(0) // January
   const [currentYear, setCurrentYear] = useState(2025)

@@ -3,10 +3,8 @@ import Link from "next/link";
 import { House, Dumbbell, Settings } from 'lucide-react';
 import { muscleGroups } from "../data/musclegroups";
 import { useState } from "react";
-import useWorkoutForMuscleState from "@/app/(pages)/store/useMuscleWorkoutState";
 export default function SideNav() {
   const [active, setActive] = useState<string | null>("dashboard");
- const {getMuscleWorkout}=useWorkoutForMuscleState()
   return (
     <>
       <div className="bg-[#18181B] text-white w-1/5 flex flex-col gap-6 p-2 h-full">

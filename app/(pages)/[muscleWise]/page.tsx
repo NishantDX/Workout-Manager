@@ -1,26 +1,12 @@
 "use client";
-import WorkoutTile from "@/components/wokroutTile";
-import { testData } from "@/utils/testData";
-import { muscleGroups } from "@/data/musclegroups";
-import { Workout } from "@/utils/type";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import Link from "next/link";
-import { Workouts } from "@/data/workouts";
-import { Dumbbell, Hash, Calendar } from "lucide-react";
-import useWorkoutState from "../store/useworkoutState";
+import { Dumbbell} from "lucide-react";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import useWorkoutForMuscleState from "../store/useMuscleWorkoutState";
 export default function WorkoutList() {
   const params = useParams<{ muscleWise: string }>();
-  const { muscleWorkouts, getMuscleWorkout } = useWorkoutForMuscleState();
-
-  // useEffect(() => {
-  //   console.log("Updated Response:", response);
-  // }, [response]);
-  const { workouts, getWorkout, deleteWorkout, updateWorkout } =
-    useWorkoutState();
+  const { muscleWorkouts } = useWorkoutForMuscleState();
 
   const filteredWorkouts = muscleWorkouts.filter(
     (workout) => workout.name === params.muscleWise
@@ -56,11 +42,6 @@ export default function WorkoutList() {
                     )
                   )
                 : null}
-              {/* {muscleGroups.map((muscle, i) => (
-                <Link href={`/`} key={i}>
-                  <div>{muscle}</div>
-                </Link>
-              ))} */}
             </div>
           </div>
         </div>

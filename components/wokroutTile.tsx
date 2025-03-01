@@ -1,15 +1,13 @@
 "use client";
 import { Workout } from "@/utils/type";
 import { Dumbbell, Hash, Calendar, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { UpdateForm } from "./updateForm";
 import Capitalize from "@/utils/capitalising";
-import { useState } from "react";
 import axios from "axios";
 import useWorkoutState from "@/app/(pages)/store/useworkoutState";
 export default function WorkoutTile({ workout }: { workout: Workout }) {
 
-  const { workouts, deleteWorkout } = useWorkoutState();
+  const { deleteWorkout } = useWorkoutState();
   //console.log(workout._id);
 
   async function HandleDelete() {

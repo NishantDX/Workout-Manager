@@ -2,7 +2,6 @@
 
 import { Workout } from "@/utils/type";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Legend, Tooltip, ResponsiveContainer } from "recharts";
-import { ChartTooltip, ChartTooltipContent } from "./ui/chart";
 export default function ProgressChart({workouts}:{workouts:Workout[]}) {
     
 

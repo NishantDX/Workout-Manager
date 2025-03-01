@@ -7,7 +7,7 @@ import useWorkoutState from "./store/useworkoutState";
 import useWorkoutForMuscleState from "./store/useMuscleWorkoutState";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { workouts, getWorkout, deleteWorkout, updateWorkout } =
+  const { getWorkout} =
     useWorkoutState();
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       }
     };
     fetchWorkouts();
-  }, []);
+  },[]);
   const { muscleWorkouts, getMuscleWorkout } = useWorkoutForMuscleState();
   useEffect(() => {
     const fetchMuscleGroup = async () => {
@@ -50,6 +50,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </>
   );
 }
-function getMuscleWorkout(muscleWiseWorkouts: any) {
-  throw new Error("Function not implemented.");
-}
+// function getMuscleWorkout(muscleWiseWorkouts: any) {
+//   throw new Error("Function not implemented.");
+// }

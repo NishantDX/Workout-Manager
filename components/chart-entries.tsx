@@ -1,22 +1,14 @@
 'use client'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { testData } from "@/utils/testData";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { ScrollAreaDemo } from "./scroll-area";
-import { DataTableDemo } from "@/components/dataTable";
-import { Workout } from "@/utils/type";
-import WorkoutTile from "./wokroutTile";
 import ProgressChart from "./progress-chat";
 import WorkoutDetails from "./workoutDetails";
-import useWorkoutForMuscleState from "@/app/(pages)/store/useMuscleWorkoutState";
 import useWorkoutState from "@/app/(pages)/store/useworkoutState";
 
 interface ChartProps {
   muscle: string;
   workout:string;
 }
-export default function Chart({ workout,muscle }: ChartProps) {
+export default function Chart({ workout }: ChartProps) {
   const {workouts} =useWorkoutState();
   const filteredWorkouts = workouts.filter(
     (workout1) => workout1.title === workout

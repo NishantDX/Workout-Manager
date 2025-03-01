@@ -5,9 +5,7 @@ import { Trophy, Dumbbell, BookCheck, CircleAlert } from "lucide-react";
 import { WorkoutForm } from "@/components/workoutForm";
 
 import Chart from "@/components/chart-entries";
-import { testData } from "@/utils/testData";
 import { useParams } from "next/navigation";
-import useWorkoutForMuscleState from "../../store/useMuscleWorkoutState";
 import useWorkoutState from "../../store/useworkoutState";
 import { useEffect, useState } from "react";
 export default function WorkoutList1() {  
@@ -16,7 +14,7 @@ export default function WorkoutList1() {
   //var re1 = /%20/gi;
   let WorkoutName: string = params.workoutWise.replace(/%20/g, " ").replace(/%2C/g, ",");
   WorkoutName = Capitalize(WorkoutName);
-  let MuscleName=Capitalize(params.muscleWise)
+  const MuscleName=Capitalize(params.muscleWise)
   const filteredWorkouts = workouts.filter(
     (workout) => workout.title === WorkoutName
   );
@@ -34,7 +32,6 @@ export default function WorkoutList1() {
     return dateB - dateA;
   });
   console.log(filteredWorkouts);
-  //console.log(typeof(filteredWorkouts[0].createdAt));
   if (filteredWorkouts.length == 0) {
     return (
       <div className="flex h-screen w-full">
@@ -54,7 +51,7 @@ export default function WorkoutList1() {
                 <div>
                   <AlertTitle>No entries yet</AlertTitle>
                   <AlertDescription>
-                    You haven't logged any {WorkoutName} workouts yet. Start
+                    You have not logged any {WorkoutName} workouts yet. Start
                     tracking to see your progress!
                   </AlertDescription>
                 </div>

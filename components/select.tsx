@@ -9,12 +9,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
 interface SelectDemoProps {
   muscle: string;
   setMuscle: React.Dispatch<React.SetStateAction<string>>;
 }
-export function SelectDemo({ muscle, setMuscle }: SelectDemoProps) {
+export function SelectDemo({ setMuscle }: SelectDemoProps) {
   return (
     <Select onValueChange={setMuscle}>
       <SelectTrigger className="w-full">
