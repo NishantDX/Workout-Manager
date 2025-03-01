@@ -9,7 +9,7 @@ import useWorkoutForMuscleState from "./store/useMuscleWorkoutState";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { workouts, getWorkout, deleteWorkout, updateWorkout } =
     useWorkoutState();
-  axios.defaults.baseURL = "http://localhost:5000";
+  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
