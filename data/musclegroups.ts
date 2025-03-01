@@ -1,0 +1,1 @@
+export const muscleGroups:string[]=["Chest","Back","Legs","Shoulders","Biceps","Triceps","Core"];
