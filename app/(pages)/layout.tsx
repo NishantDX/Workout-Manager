@@ -34,7 +34,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         if (!res) {
           throw new Error(`HTTP error! status: ${res}`);
         }
-
+        console.log(res.data.muscleWiseWorkouts);
         // Check if res.data.muscleWiseWorkouts is iterable
         if (Array.isArray(res.data.muscleWiseWorkouts)) {
           getMuscleWorkout(res.data.muscleWiseWorkouts);
