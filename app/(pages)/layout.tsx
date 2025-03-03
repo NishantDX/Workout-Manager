@@ -9,7 +9,7 @@ import useWorkoutForMuscleState from "./store/useMuscleWorkoutState";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { getWorkout} =
     useWorkoutState();
-  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL; 
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
@@ -30,6 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const fetchMuscleGroup = async () => {
       try {
         const res = await axios.get("/api/workouts");
+        //console.log(res);
         if (!res) {
           throw new Error(`HTTP error! status: ${res}`);
         }
