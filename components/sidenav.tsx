@@ -8,7 +8,7 @@ export default function SideNav() {
   return (
     <>
       <div className="bg-[#18181B] text-white w-1/5 flex flex-col gap-6 p-2 h-full">
-        <div className="text-3xl font-bold text-center">GymTrack PRO</div>
+        <div className="text-3xl font-bold text-center">Rep-Sync</div>
         <div className="flex flex-col justify-between gap-1 h-full">
           <div className="flex flex-col pl-2 font-semibold gap-2">
             <Link href={'/'} >

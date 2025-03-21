@@ -9,6 +9,10 @@ export type Workout={
     reps:number,
     date:string
 }
+export type User={
+    email:String|null,
+    password:String|null
+}
 export type WorkoutStore = {
     workouts: Workout[];
     getWorkout: (existingWorkouts:Workout[])=>void; 
@@ -19,4 +23,9 @@ export type WorkoutStore = {
 export type MuscleWorkoutStore={
     muscleWorkouts:any[];
     getMuscleWorkout: (existingWorkouts:any[])=>void; 
+}
+export type userStore={
+    user:User;
+    login:(user:User)=>void;
+    logout:()=>void;
 }

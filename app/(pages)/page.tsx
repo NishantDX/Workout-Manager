@@ -11,7 +11,7 @@ export default function Home() {
       <div className="flex h-screen w-full">
         <div className="bg-[#020817] w-full flex flex-col item">
           <div className="text-4xl font-bold text-white w-10/12 mx-auto py-8 flex-nowrap">
-            Welcome to GymTrack PRO
+           Welcome to Rep-Sync
           </div>
           <div className="w-full flex justify-center mx-auto overflow-x-auto">
             <div className="w-full flex justify-center pr-5">
