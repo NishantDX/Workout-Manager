@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import useWorkoutForMuscleState from "@/app/(pages)/store/useMuscleWorkoutState";
+import useWorkoutForMuscleState from "@/app/(pages)/(authenticated)/store/useMuscleWorkoutState";
 
 interface SelectDemoProps {
   muscle: string;
@@ -27,7 +27,7 @@ export function SelectName({ muscle, setTitle }: SelectDemoProps) {
   return (
     <Select onValueChange={setTitle}>
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Name" className="text-white"/>
+        <SelectValue placeholder="Name" className="text-white" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>

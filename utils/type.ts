@@ -11,7 +11,7 @@ export type Workout={
 }
 export type User={
     email:String|null,
-    password:String|null
+    token:String|null
 }
 export type WorkoutStore = {
     workouts: Workout[];
@@ -23,9 +23,4 @@ export type WorkoutStore = {
 export type MuscleWorkoutStore={
     muscleWorkouts:any[];
     getMuscleWorkout: (existingWorkouts:any[])=>void; 
-}
-export type userStore={
-    user:User;
-    login:(user:User)=>void;
-    logout:()=>void;
 }

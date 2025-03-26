@@ -3,15 +3,18 @@ import { WorkoutForm } from "@/components/workoutForm";
 import WorkoutDetails from "@/components/workoutDetails";
 import useWorkoutState from "./store/useworkoutState";
 import { GymCalendar } from "@/components/calendar";
+import useUserState from "./store/userUpdateStore";
+
 export default function Home() {
   const { workouts } = useWorkoutState();
-
+  const {  logout } = useUserState();
   return (
     <>
       <div className="flex h-screen w-full">
         <div className="bg-[#020817] w-full flex flex-col item">
           <div className="text-4xl font-bold text-white w-10/12 mx-auto py-8 flex-nowrap">
-           Welcome to Rep-Sync
+            Welcome to Rep-Sync
+            <div onClick={()=>logout()}>Logout</div>
           </div>
           <div className="w-full flex justify-center mx-auto overflow-x-auto">
             <div className="w-full flex justify-center pr-5">

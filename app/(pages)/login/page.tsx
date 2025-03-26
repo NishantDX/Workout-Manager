@@ -1,0 +1,136 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import useUserState from "../(authenticated)/store/userUpdateStore";
+import { Dumbbell } from "lucide-react";
+import axios from "axios";
+//import Router from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+
+export default function LoginPage() {
+  const { login, user, logout } = useUserState();
+  const router =useRouter();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  useEffect(() => {
+    //console.log("Updated user:", user);
+    //console.log(user);
+    const localUser = localStorage.getItem("user");
+    if(localUser){
+      router.push('/');
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   const localUser = localStorage.getItem("user");
+    
+  //   if(localUser){
+  //    const user= JSON.parse(localUser)
+  //     login(user)
+  //     console.log(user)
+  //   }
+  //   if (!localUser) {
+  //     router.push("/login"); // Redirect to login if user is not authenticated
+  //   }
+  // }, []);
+
+  async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    Login();
+  }
+
+  async function Login() {
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post(
+        `/user/login`,
+        {
+          email,
+          password,
+        }
+      );
+      //console.log(response)
+
+      if (response.status >= 200 && response.status < 300) {
+        //const { email, password } = response.data;
+        //console.log(response.data)
+        await login(response.data);
+        localStorage.setItem("user", JSON.stringify(response.data));
+        //console.log(user);
+        router.push("/");
+        setIsLoading(false);
+      }
+
+      //console.log(response);
+    } catch (error) {
+      console.error("Error object:", error);
+    
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error response:", error.response);
+        setError(error.response?.data?.error);
+      } else {
+        console.error("Non-Axios error:", error);
+        setError("An unknown error occurred.");
+      }
+    }
+    finally {
+      setIsLoading(false); // Reset loading to false after the process ends
+    }
+  }
+
+
+  return (
+    <div className="flex flex-col items-center justify-center h-screen bg-[#020817] w-full  text-white">
+      <div className="flex flex-col items-center justify-center w-1/4 border-white border-2 rounded-lg p-10 bg-[#020817] h-fit text-white">
+        <div className="rounded-full bg-slate-800 m-2 size-16 flex items-center justify-center p-2">
+          <Dumbbell className="text-blue-500 size-8 " />
+        </div>
+        <div className="text-5xl font-bold mb-3">Rep-Sync</div>
+        <div className="w-4/5 flex text-center">
+          Track your workouts, monitor your progress, achieve your fitness goals
+        </div>
+        <h1 className="text-3xl font-semibold mb-6">Login</h1>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="mb-4 p-2 rounded bg-gray-800 text-white"
+          autoComplete="off"
+        />
+        <input
+          type="password"
+          name="email"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="mb-4 p-2 rounded bg-gray-800 text-white"
+          autoComplete="off"
+        />
+        <button
+        disabled={isLoading}
+          onClick={(e) => handleSubmit(e)}
+          className="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Login
+        </button>
+        {error && <div className="text-red-500 mt-2">{error}</div>}
+        <div className="mt-4 flex flex-col justify-center">
+          <span>Don't have an account? </span>
+          <button
+            onClick={() => router.push("/signup")}
+            className="text-blue-500 underline hover:text-blue-600"
+          >
+            Create an Account
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  );
+}

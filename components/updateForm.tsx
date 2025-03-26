@@ -28,7 +28,8 @@ import { Pencil } from "lucide-react";
 import Capitalize from "@/utils/capitalising";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import useWorkoutState from "@/app/(pages)/store/useworkoutState";
+import useWorkoutState from "@/app/(pages)/(authenticated)/store/useworkoutState";
+import useUserState from "@/app/(pages)/(authenticated)/store/userUpdateStore";
 
 export function UpdateForm({ workout }: { workout: Workout }) {
   const [open, setOpen] = React.useState(false);
@@ -98,6 +99,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   const [weight, setWeight] = useState<string>();
   const [muscle, setMuscle] = useState<string>("");
   console.log(muscle);
+  const {user } = useUserState();
   async function HandleClick(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
@@ -106,7 +108,13 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         muscle_Group: muscle,
         reps: reps,
         weight: weight,
-      });
+      },
+      {
+        headers:{
+          'Autherization':`Bearer ${user.token}`
+        }
+      }
+    );
       updateWorkout(response.data);
       setIsOpen(false);
     } catch (error) {

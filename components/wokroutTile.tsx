@@ -4,15 +4,25 @@ import { Dumbbell, Hash, Calendar, Trash2 } from "lucide-react";
 import { UpdateForm } from "./updateForm";
 import Capitalize from "@/utils/capitalising";
 import axios from "axios";
-import useWorkoutState from "@/app/(pages)/store/useworkoutState";
+import useWorkoutState from "@/app/(pages)/(authenticated)/store/useworkoutState";
+import useUserState from "@/app/(pages)/(authenticated)/store/userUpdateStore";
 export default function WorkoutTile({ workout }: { workout: Workout }) {
-
   const { deleteWorkout } = useWorkoutState();
+  const {user } = useUserState();
   //console.log(workout._id);
 
   async function HandleDelete() {
     try {
-      const response = await axios.delete(`/${workout._id}`);
+      if(!user){
+        return
+      }
+      const response = await axios.delete(`/${workout._id}`
+        ,{
+        headers:{
+          'Autherization':`Bearer ${user.token}`
+        }
+      }
+    );
       console.log(response);
       deleteWorkout(response.data);
     } catch (error) {
@@ -21,11 +31,10 @@ export default function WorkoutTile({ workout }: { workout: Workout }) {
   }
   return (
     <>
-      <div className="bg-[#020817] flex p-3 rounded-2xl group justify-between w-full  hover:bg-[#182334] cursor-pointer px-5 border border-slate-600"
-      >
+      <div className="bg-[#020817] flex p-3 rounded-2xl group justify-between w-full  hover:bg-[#182334] cursor-pointer px-5 border border-slate-600">
         <div className="flex flex-col justify-between">
           <div className="text-xl font-bold flex gap-2 items-center">
-            <Dumbbell className="text-blue-500 h-5"/>
+            <Dumbbell className="text-blue-500 h-5" />
             {Capitalize(workout.title)}
           </div>
           <div className="text-slate-400">
@@ -49,9 +58,7 @@ export default function WorkoutTile({ workout }: { workout: Workout }) {
             </div>
           </div>
 
-          <div
-            className='flex flex-col text-black gap-2 justify-end relative group-hover:visible invisible' 
-          >
+          <div className="flex flex-col text-black gap-2 justify-end relative group-hover:visible invisible">
             <Trash2
               className=" absolute  rounded-full bg-red-900 p-2 size-8 text-white left-1"
               onClick={HandleDelete}

@@ -13,7 +13,9 @@ export default function WorkoutList1() {
   const {workouts} =useWorkoutState()
   //var re1 = /%20/gi;
   let WorkoutName: string = params.workoutWise.replace(/%20/g, " ").replace(/%2C/g, ",");
+  console.log(WorkoutName)
   WorkoutName = Capitalize(WorkoutName);
+  console.log(WorkoutName)
   const MuscleName=Capitalize(params.muscleWise)
   const filteredWorkouts = workouts.filter(
     (workout) => workout.title === WorkoutName
@@ -25,7 +27,7 @@ export default function WorkoutList1() {
     }, 0);
     setPr(maxWeight);
   }, [filteredWorkouts]);
-  //console.log(workouts)
+  console.log(workouts)
   filteredWorkouts.sort((a, b) => {
     const dateA = new Date(a.createdAt).getTime();
     const dateB =  new Date(b.createdAt).getTime();

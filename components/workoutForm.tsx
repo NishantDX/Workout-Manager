@@ -27,9 +27,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { useEffect, useState } from "react";
-import useWorkoutState from "@/app/(pages)/store/useworkoutState";
+import useWorkoutState from "@/app/(pages)/(authenticated)/store/useworkoutState";
 import axios from "axios";
 import { SelectName } from "./selectName";
+import useUserState from "@/app/(pages)/(authenticated)/store/userUpdateStore";
 interface WorkoutFormProps {
   muscleExist: boolean;
   muscleName: string;
@@ -117,22 +118,30 @@ function ProfileForm({
   const [weight, setWeight] = useState<string>();
   const [muscle, setMuscle] = useState<string>("");
 
-
-
-
-  const {  addWorkout} =
-    useWorkoutState();
+  const { addWorkout } = useWorkoutState();
+  const {user } = useUserState();
   async function HandleClick(e: React.FormEvent<HTMLFormElement>) {
     console.log("hi");
     e.preventDefault();
+    if(!user){
+      setErrors("You must be logged in")
+      
+    }
     try {
       const response = await axios.post("/", {
         title,
         muscle_Group: muscle.toLowerCase(),
         reps,
         weight,
-      });
+      }
+      ,{
+        headers:{
+          'Autherization':`Bearer ${user.token}`
+        }
+      }
+    );
       addWorkout(response.data);
+      //console.log(response.data)
       setTitle("");
       setReps("");
       setWeight("");
@@ -162,23 +171,24 @@ function ProfileForm({
     }
   }, [muscleExist, muscleName, workoutName]);
   if (muscleExist) {
-    
     //console.log(workoutName);
     return (
       <form
         className={cn("grid items-start gap-4", className)}
-        onSubmit={
-          HandleClick
-        }
+        onSubmit={HandleClick}
       >
         <div className="grid gap-2 ">
           <Label>Mucle Group</Label>
-          <div className="border border-slate-300 h-9 px-3 py-1 rounded-md">{muscleName}</div>
+          <div className="border border-slate-300 h-9 px-3 py-1 rounded-md">
+            {muscleName}
+          </div>
           {/* <Input type="text" placeholder={muscleName} /> */}
         </div>
         <div className="grid gap-2">
           <Label>Name</Label>
-          <div className="border border-slate-300 h-9 px-3 py-1 rounded-md">{workoutName}</div>
+          <div className="border border-slate-300 h-9 px-3 py-1 rounded-md">
+            {workoutName}
+          </div>
           {/* <Input type="text" placeholder={workoutName} /> */}
         </div>
         <div className="grid gap-2">

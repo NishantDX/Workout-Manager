@@ -1,15 +1,15 @@
-'use client'
+"use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProgressChart from "./progress-chat";
 import WorkoutDetails from "./workoutDetails";
-import useWorkoutState from "@/app/(pages)/store/useworkoutState";
+import useWorkoutState from "@/app/(pages)/(authenticated)/store/useworkoutState";
 
 interface ChartProps {
   muscle: string;
-  workout:string;
+  workout: string;
 }
 export default function Chart({ workout }: ChartProps) {
-  const {workouts} =useWorkoutState();
+  const { workouts } = useWorkoutState();
   const filteredWorkouts = workouts.filter(
     (workout1) => workout1.title === workout
   );
@@ -45,7 +45,9 @@ export default function Chart({ workout }: ChartProps) {
             <TabsTrigger value="password">Progress</TabsTrigger>
           </TabsList>
           <TabsContent value="account">
-          <div className="w-10/12 m-auto"><WorkoutDetails data={filteredWorkouts}/></div>
+            <div className="w-10/12 m-auto">
+              <WorkoutDetails data={filteredWorkouts} />
+            </div>
           </TabsContent>
           <TabsContent value="password" className="flex justify-center">
             <ProgressChart workouts={filteredWorkouts} />
