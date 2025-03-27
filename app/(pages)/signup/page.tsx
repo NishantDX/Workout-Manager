@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 export default function SignPage() {
   const router =useRouter();
-  const { login, user, logout } = useUserState();
+  const { login, user} = useUserState();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);

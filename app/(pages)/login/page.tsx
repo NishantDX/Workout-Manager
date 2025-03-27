@@ -5,10 +5,10 @@ import useUserState from "../(authenticated)/store/userUpdateStore";
 import { Dumbbell } from "lucide-react";
 import axios from "axios";
 //import Router from "next/navigation";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const { login, user, logout } = useUserState();
+  const { login } = useUserState();
   const router =useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -121,7 +121,7 @@ export default function LoginPage() {
         </button>
         {error && <div className="text-red-500 mt-2">{error}</div>}
         <div className="mt-4 flex flex-col justify-center">
-          <span>Don't have an account? </span>
+          <span>Do not have an account? </span>
           <button
             onClick={() => router.push("/signup")}
             className="text-blue-500 underline hover:text-blue-600"

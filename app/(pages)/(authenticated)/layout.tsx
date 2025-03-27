@@ -6,8 +6,7 @@ import { useEffect } from "react";
 import useWorkoutState from "./store/useworkoutState";
 import useWorkoutForMuscleState from "./store/useMuscleWorkoutState";
 //import useUserState from "./store/userUpdateStore";
-import { useParams, useRouter, usePathname } from "next/navigation";
-import { redirect } from "next/navigation";
+import {  useRouter, usePathname } from "next/navigation";
 import useUserState from "./store/userUpdateStore";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -62,7 +61,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     }
   },[user]);
 
-  const { muscleWorkouts, getMuscleWorkout } = useWorkoutForMuscleState();
+  const { getMuscleWorkout } = useWorkoutForMuscleState();
 
   const fetchMuscleGroup = async () => {
     try {
