@@ -1,3 +1,5 @@
+//'use client'
+//import router  from "next/router";
 import { User } from "../../../../utils/type";
 import { create } from "zustand";
 //import useWorkoutState from "./useworkoutState";
@@ -10,6 +12,7 @@ type UserStore = {
 
 const useUserState = create<UserStore>((set) => ({
   user: { email: null, token: null },
+  
   async login(User: User) {
     if (typeof window !== "undefined") {
       localStorage.setItem("user", JSON.stringify(User));
@@ -17,8 +20,10 @@ const useUserState = create<UserStore>((set) => ({
     set({ user: User });
   },
   async logout() {
+    
     if (typeof window !== "undefined") {
       localStorage.removeItem("user");
+      //router.push('/login');
     }
     set({ user: { email: null, token: null } });
   },
