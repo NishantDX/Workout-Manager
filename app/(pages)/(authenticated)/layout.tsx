@@ -53,7 +53,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     if (isClient) {
       initializeUser();
     }
-  }, [isClient]);
+  }, [isClient, localStorage.getItem("user")]);
 
   const fetchWorkouts = async () => {
     console.log(user.token);
