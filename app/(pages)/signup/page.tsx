@@ -7,31 +7,25 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 export default function SignPage() {
-  const router =useRouter();
-  const { login, user} = useUserState();
+  const router = useRouter();
+  const { login } = useUserState();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  // Check if user is already logged in
   useEffect(() => {
-    //console.log("Updated user:", user);
-  }, [user]);
-  useEffect(() => {
-    //console.log("Updated user:", user);
-    //console.log(user);
-    const localUser = localStorage.getItem("user");
-    if(localUser){
-      router.push('/');
+    if (typeof window !== "undefined") {
+      const localUser = localStorage.getItem("user");
+      if (localUser) {
+        router.push("/");
+      }
     }
-  }, []);
+  }, [router]);
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    Signup();
-  }
-
-  async function Signup() {
     setError(null);
     setIsLoading(true);
 
@@ -42,20 +36,15 @@ export default function SignPage() {
       });
 
       if (response.status >= 200 && response.status < 300) {
-        localStorage.setItem("user", JSON.stringify(response.data));
         await login(response.data);
-        console.log(user);
-        router.push('/');
-        setIsLoading(false);
+        router.push("/");
       }
     } catch (error) {
-      console.error("Error object:", error);
-
       if (axios.isAxiosError(error)) {
-        console.error("Axios error response:", error.response);
-        setError(error.response?.data?.error);
+        setError(
+          error.response?.data?.error || "Signup failed. Please try again."
+        );
       } else {
-        console.error("Non-Axios error:", error);
         setError("An unknown error occurred.");
       }
     } finally {
@@ -94,7 +83,7 @@ export default function SignPage() {
         />
         <button
           disabled={isLoading}
-          onClick={(e) => handleSubmit(e)}
+          onClick={handleSubmit}
           className="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
         >
           {isLoading ? "Creating Account..." : "Create Account"}

@@ -1,12 +1,14 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import SideNav from "@/components/sidenav";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useWorkoutState from "./store/useworkoutState";
 import useWorkoutForMuscleState from "./store/useMuscleWorkoutState";
 //import useUserState from "./store/userUpdateStore";
-import {  useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import useUserState from "./store/userUpdateStore";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -14,10 +16,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { getWorkout } = useWorkoutState();
   const router = useRouter();
   const pathname = usePathname();
+  const [isClient, setIsClient] = useState(false);
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
   const { user, login } = useUserState();
 
-  function initializeUser(){
+  // Set isClient to true on component mount
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  function initializeUser() {
     if (typeof window !== "undefined") {
       const localUser = localStorage.getItem("user");
 
@@ -25,10 +33,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         console.log("No user found, redirecting to /login");
         router.push("/login"); // Redirect to login if user is not authenticated
       } else {
-        const processedUser=JSON.parse(localUser)
+        const processedUser = JSON.parse(localUser);
         login(processedUser);
-        axios.defaults.headers["Authorization"] = `Bearer ${processedUser.token}`;
-        
+        axios.defaults.headers[
+          "Authorization"
+        ] = `Bearer ${processedUser.token}`;
+
         //console.log(user)
         console.log("Authenticated user:", JSON.parse(localUser));
 
@@ -38,9 +48,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       }
     }
   }
-  useEffect(()=>{
-       initializeUser();
-}, [localStorage.getItem("user")]);
+
+  useEffect(() => {
+    if (isClient) {
+      initializeUser();
+    }
+  }, [isClient]);
 
   const fetchWorkouts = async () => {
     console.log(user.token);
@@ -59,7 +72,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     if (user.token) {
       fetchWorkouts();
     }
-  },[user]);
+  }, [user]);
 
   const { getMuscleWorkout } = useWorkoutForMuscleState();
 
@@ -81,10 +94,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     }
   };
 
-
   useEffect(() => {
-    if(user.token)
-    fetchMuscleGroup();
+    if (user.token) fetchMuscleGroup();
   }, [user]);
 
   //console.log(muscleWorkouts);

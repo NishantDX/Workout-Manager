@@ -17,10 +17,11 @@ export default function LoginPage() {
   useEffect(() => {
     //console.log("Updated user:", user);
     //console.log(user);
+    if (typeof window !== "undefined"){
     const localUser = localStorage.getItem("user");
     if(localUser){
       router.push('/');
-    }
+    }}
   }, []);
 
   // useEffect(() => {
