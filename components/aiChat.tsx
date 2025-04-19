@@ -1,13 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
 import { 
-  MessageSquare, Send, User, ChevronsRight, X, Lightbulb, 
+  MessageSquare, Send, User, ChevronsRight, Lightbulb, 
   Calendar, Trophy, Zap, Dumbbell, BookOpen, Clock, BarChart, 
   ArrowRight, CheckCircle2
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import axios from "axios";
 import useWorkoutState from "@/app/(pages)/(authenticated)/store/useworkoutState";
+import { Workout } from "@/utils/type";
 
 interface AiAdvisorProps {
   isOpen: boolean;
@@ -506,7 +507,7 @@ export default function AiAdvisor({ isOpen, setIsOpen }: AiAdvisorProps) {
   // Get AI-enhanced insights using Gemini
   // filepath: f:\Programming\full stack project\UIs\workout tracker\workout-tracker\components\aiChat.tsx
 // Get AI-enhanced insights using Gemini
-const getAIInsights = async (workouts: any[]) => {
+const getAIInsights = async (workouts: Workout[]) => {
     try {
       // Format workout data for the AI based on your actual data structure
       const workoutSummary = {
@@ -624,13 +625,13 @@ const getAIInsights = async (workouts: any[]) => {
     
     try {
       // In development/testing mode, you can use this simulated response
-      let aiResponse;
+      
       
       // Uncomment this section and comment out the next section to use the mock response generator
       // aiResponse = generateMockResponse(query);
       
       // Use actual Gemini API (comment this out if using mock responses)
-      aiResponse = await fetchGeminiResponse(query);
+      const aiResponse= await fetchGeminiResponse(query);
       
       // Add AI response to conversation
       setConversation(prev => [...prev, { type: 'assistant', content: aiResponse }]);
@@ -647,19 +648,19 @@ const getAIInsights = async (workouts: any[]) => {
   };
 
   // Mock response generator for testing (use when API is not connected)
-  const generateMockResponse = (userQuery: string) => {
-    const lowerQuery = userQuery.toLowerCase();
+//   const generateMockResponse = (userQuery: string) => {
+//     const lowerQuery = userQuery.toLowerCase();
     
-    if (lowerQuery.includes('leg') || lowerQuery.includes('calf')) {
-      return "Based on your recent leg workouts, I've noticed you're consistently performing calf raises and hamstring curls. To improve your leg development, consider adding squats and lunges to target your quadriceps more effectively. Your current volume looks good, but you might benefit from increasing weight on your hamstring exercises by 5-10% for optimal growth.";
-    } else if (lowerQuery.includes('shoulder') || lowerQuery.includes('shrug')) {
-      return "Your shoulder training shows good variety with different shrug variations. To complement this, I'd recommend adding some overhead pressing movements and lateral raises to ensure balanced deltoid development. Based on your progress, you could aim for 3 shoulder sessions every 2 weeks for optimal recovery and growth.";
-    } else if (lowerQuery.includes('plan') || lowerQuery.includes('schedule')) {
-      return "Looking at your workout history, I recommend a 4-day split: Day 1: Chest/Triceps, Day 2: Back/Biceps, Day 3: Legs, Day 4: Shoulders/Core. This would optimize your current training pattern while ensuring adequate recovery between muscle groups. Your data shows you're most consistent with workouts in the evening, so I'd suggest maintaining that timeframe.";
-    } else {
-      return "Based on your workout data, I notice you've been training consistently for 19 days. Great job maintaining your streak! Your recent focus has been on legs and shoulders. For balanced development, consider incorporating more chest and back exercises in your upcoming sessions. Would you like a specific recommendation for your next workout?";
-    }
-  };
+//     if (lowerQuery.includes('leg') || lowerQuery.includes('calf')) {
+//       return "Based on your recent leg workouts, I've noticed you're consistently performing calf raises and hamstring curls. To improve your leg development, consider adding squats and lunges to target your quadriceps more effectively. Your current volume looks good, but you might benefit from increasing weight on your hamstring exercises by 5-10% for optimal growth.";
+//     } else if (lowerQuery.includes('shoulder') || lowerQuery.includes('shrug')) {
+//       return "Your shoulder training shows good variety with different shrug variations. To complement this, I'd recommend adding some overhead pressing movements and lateral raises to ensure balanced deltoid development. Based on your progress, you could aim for 3 shoulder sessions every 2 weeks for optimal recovery and growth.";
+//     } else if (lowerQuery.includes('plan') || lowerQuery.includes('schedule')) {
+//       return "Looking at your workout history, I recommend a 4-day split: Day 1: Chest/Triceps, Day 2: Back/Biceps, Day 3: Legs, Day 4: Shoulders/Core. This would optimize your current training pattern while ensuring adequate recovery between muscle groups. Your data shows you're most consistent with workouts in the evening, so I'd suggest maintaining that timeframe.";
+//     } else {
+//       return "Based on your workout data, I notice you've been training consistently for 19 days. Great job maintaining your streak! Your recent focus has been on legs and shoulders. For balanced development, consider incorporating more chest and back exercises in your upcoming sessions. Would you like a specific recommendation for your next workout?";
+//     }
+//   };
 
   const handleKeyPress = (e: { key: string; }) => {
     if (e.key === 'Enter') {
@@ -871,7 +872,7 @@ const getAIInsights = async (workouts: any[]) => {
             </div>
           )}
           
-          // Inside your component's JSX where the plans tab content is rendered:
+        
 {activeTab === 'plans' && (
   <div className="flex-1 p-6 overflow-y-auto">
     {workoutPlans.isLoading ? (

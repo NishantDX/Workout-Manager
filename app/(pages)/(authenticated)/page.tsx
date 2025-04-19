@@ -257,7 +257,7 @@ export default function Home() {
                     <Trophy className="text-yellow-500 w-5 h-5 mr-2" />
                     <h4 className="font-semibold text-white">Streak Analysis</h4>
                   </div>
-                  <p className="text-sm text-gray-300">You're on a 19-day streak! Users who maintain 20+ day streaks see 40% better results on average.</p>
+                  <p className="text-sm text-gray-300">You are on a 19-day streak! Users who maintain 20+ day streaks see 40% better results on average.</p>
                 </div>
                 
                 <div className="bg-gray-800 rounded-lg p-4 mb-4">
