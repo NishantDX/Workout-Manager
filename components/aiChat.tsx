@@ -160,45 +160,45 @@ export default function AiAdvisor({ isOpen, setIsOpen }: AiAdvisorProps) {
     
     // Prepare prompt for Gemini API
     const prompt = `
-      Create a detailed 7-day workout plan covering all major muscle groups throughout the week.
-      Based on these details about the user:
-      - Fitness level: ${fitnessLevel}
-      - Number of tracked workouts: ${workouts.length}
-      - Most trained muscle groups: ${muscleGroups.length > 0 ? 
-        muscleGroups.map(g => g.name).join(", ") : "balanced training"}
-      
-      The plan should have 7 days with specific muscle group focus for each day:
-      - Day 1: Chest
-      - Day 2: Back
-      - Day 3: Legs (Quads, Hamstrings, Calves)
-      - Day 4: Shoulders
-      - Day 5: Arms (Biceps, Triceps)
-      - Day 6: Core and Stability
-      - Day 7: Rest or Active Recovery
-      
-      Each day should have 4-6 exercises specific to the muscle group with sets, reps, and brief technique notes.
-      
-      Format the output strictly as a valid JSON object like this:
+  Create a detailed 7-day workout plan covering all major muscle groups throughout the week.
+  Based on these details about the user:
+  - Fitness level: ${fitnessLevel}
+  - Number of tracked workouts: ${workouts.length}
+  - Most trained muscle groups: ${muscleGroups.length > 0 ? 
+    muscleGroups.map(g => g.name).join(", ") : "balanced training"}
+  
+  The plan should have 7 days with specific muscle group focus for each day:
+  - Day 1: Chest
+  - Day 2: Back
+  - Day 3: Legs (Quads, Hamstrings, Calves)
+  - Day 4: Shoulders
+  - Day 5: Arms (Biceps, Triceps)
+  - Day 6: Core and Stability
+  - Day 7: Rest or Active Recovery
+  
+  Each day should have 4-6 exercises specific to the muscle group with sets, reps, and brief technique notes.
+  
+  Format the output strictly as a valid JSON object like this:
+  {
+    "title": "7-Day Complete Muscle Group Split",
+    "fitnessLevel": "${fitnessLevel}",
+    "days": [
       {
-        "title": "7-Day Complete Muscle Group Split",
-        "fitnessLevel": "${fitnessLevel}",
-        "days": [
-          {
-            "name": "Day 1: Chest",
-            "focus": "Chest",
-            "exercises": [
-              {"name": "Exercise name", "sets": 3, "reps": "8-12", "note": "Brief technique note"},
-              ...more exercises
-            ]
-          },
-          ...more days
+        "name": "Day 1: Chest",
+        "focus": "Chest",
+        "exercises": [
+          {"name": "Exercise name", "sets": 3, "reps": "8-12", "note": "Brief technique note"},
+          ...more exercises
         ]
-      }
-      
-      IMPORTANT: The output must be a valid JSON object and nothing else. No explanations or other text.
-      Each exercise should target the specific muscle group for that day.
-      For ${fitnessLevel} level, use appropriate exercise selection and volume.
-    `;
+      },
+      ...more days
+    ]
+  }
+  
+  IMPORTANT: The output must be a valid JSON object and nothing else. No explanations, markdown formatting, or code blocks. Just the raw JSON.
+  Each exercise should target the specific muscle group for that day.
+  For ${fitnessLevel} level, use appropriate exercise selection and volume.
+`;
     
     const response = await axios.post(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.NEXT_PUBLIC_GEMINI_API_KEY}`,
@@ -504,7 +504,9 @@ export default function AiAdvisor({ isOpen, setIsOpen }: AiAdvisorProps) {
   };
   
   // Get AI-enhanced insights using Gemini
-  const getAIInsights = async (workouts: any[]) => {
+  // filepath: f:\Programming\full stack project\UIs\workout tracker\workout-tracker\components\aiChat.tsx
+// Get AI-enhanced insights using Gemini
+const getAIInsights = async (workouts: any[]) => {
     try {
       // Format workout data for the AI based on your actual data structure
       const workoutSummary = {
@@ -527,7 +529,9 @@ export default function AiAdvisor({ isOpen, setIsOpen }: AiAdvisorProps) {
       1. Three specific recommendations based on the workout data
       2. Any notable patterns or insights about training balance
       
-      Format: { "recommendations": ["rec1", "rec2", "rec3"] }`;
+      Format: { "recommendations": ["rec1", "rec2", "rec3"] }
+      
+      IMPORTANT: Return just the plain JSON without any markdown formatting, code blocks, or additional text.`;
       
       const response = await axios.post(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.NEXT_PUBLIC_GEMINI_API_KEY}`,
@@ -547,12 +551,25 @@ export default function AiAdvisor({ isOpen, setIsOpen }: AiAdvisorProps) {
       // Parse the response
       const aiText = response.data.candidates[0].content.parts[0].text;
       try {
-        const aiData = JSON.parse(aiText);
+        // Clean up the text to handle markdown and code blocks that Gemini might include
+        const cleanedResponse = aiText
+          .replace(/```json|```|\`/g, '') // Remove markdown code blocks and backticks
+          .replace(/^\s*[\r\n]/gm, '')    // Remove empty lines
+          .trim();                        // Remove trailing/leading whitespace
+        
+        console.log("Cleaned response:", cleanedResponse);
+        
+        // Find JSON object in the text
+        const jsonMatch = cleanedResponse.match(/(\{[\s\S]*\})/);
+        const jsonString = jsonMatch ? jsonMatch[0] : cleanedResponse;
+        
+        const aiData = JSON.parse(jsonString);
         if (aiData.recommendations && Array.isArray(aiData.recommendations)) {
           return { recommendations: aiData.recommendations.slice(0, 3) };
         }
       } catch (e) {
         console.error("Failed to parse AI response:", e);
+        console.log("Raw AI response:", aiText);
       }
     } catch (error) {
       console.error("Error calling Gemini API for insights:", error);
